@@ -4,33 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
     <link rel="stylesheet" href="game.css" type="text/css" />
-    <audio id="background-music" src="/resources/musica.mp3" loop></audio>
-
     <title>Escapa de juanga</title>
 </head>
 <body>
     <h1>Escapa de juanga</h1>
-    <div id="settings-panel" class="settings-panel">
-        <h2>Configuración</h2>
-        <label for="volume-control">Volumen música:
-        <input type="range" id="volume-control" min="0" max="100" value="50">
-        </label>
-        <label for="difficulty-select">Selecciona dificultad:</label>
-        <select id="difficulty-select" aria-label="Seleccionar dificultad">
-            <option value="easy">Fácil</option>
-            <option value="normal" selected>Normal</option>
-            <option value="hard">Difícil</option>
-        </select>
-        <button id="start-button">Iniciar</button>
-    </div>
-
-    <div id="game-area">
-        <div id="player" class="character"></div>
-        <div id="juanga" class="character"></div>
+    <div class="main-container">
+        <div id="game-area">
+            <div id="player" class="character"></div>
+            <div id="juanga" class="character"></div>
+        </div>
+        <div id="settings-panel" class="settings-panel">
+            <h2>Configuración</h2>
+            <label for="difficulty-select">Selecciona dificultad:</label>
+            <select id="difficulty-select">
+                <option value="easy">Fácil</option>
+                <option value="normal" selected>Normal</option>
+                <option value="hard">Difícil</option>
+            </select>
+            <label for="bg-select">Selecciona fondo:</label>
+            <select id="bg-select">
+                <option value="juanga.png">Fondo 1</option>
+                <option value="juangahomo.png">Fondo 2</option>
+                <option value="juangaxxx.png">Fondo 3</option>
+            </select>
+            <button id="start-button">Iniciar</button>
+            <label for="volume-control">Volumen música:
+                <input type="range" id="volume-control" min="0" max="100" value="50">
+            </label>
+            <audio id="musica" src="/resources/musica.mp3" loop></audio>
+        </div>
     </div>
     <script type="text/javascript" src="game.js"></script>
-    <audio id="background-music" src="/resources/musica.mp3" loop></audio>
-
-    
 </body>
 </html>

@@ -3,23 +3,33 @@ const gameArea = document.getElementById('game-area');
 const juanga = document.getElementById('juanga');
 
 const difficultySelect = document.getElementById('difficulty-select');
+const bgSelect = document.getElementById('bg-select');
 const startButton = document.getElementById('start-button');
 const volumeControl = document.getElementById('volume-control');
-const backgroundMusic = document.getElementById('background-music');
+const backgroundMusic = document.getElementById('musica');
 
 let playerPosition = { x: 100, y: 100 };
 let juangaPosition = { x: 300, y: 300 };
 
-// Variables de velocidad que serán asignadas según dificultad
 let playerSpeed;
 let juangaSpeed;
-
 let gameStarted = false;
 
-// Inicializar volumen música al 50%
+// Parámetros para recorte de música (clip)
+const clipStart = 0;
+const clipEnd = 60; // segundos
+
+// Volumen inicial
 backgroundMusic.volume = 0.5;
 
-// Función para ajustar velocidades según dificultad
+// Loop del clip cuando llega al minuto
+backgroundMusic.addEventListener('timeupdate', () => {
+    if (backgroundMusic.currentTime >= clipEnd) {
+        backgroundMusic.currentTime = clipStart;
+        backgroundMusic.play();
+    }
+});
+
 function setDifficulty(level) {
     switch(level) {
         case 'easy':
@@ -43,11 +53,20 @@ difficultySelect.addEventListener('change', () => {
     }
 });
 
+// Cambia el fondo dinámicamente
+bgSelect.addEventListener('change', () => {
+    gameArea.style.backgroundImage = `url('/resources/${bgSelect.value}')`;
+});
+
+// Fondo inicial
+gameArea.style.backgroundImage = `url('/resources/${bgSelect.value}')`;
+
 startButton.addEventListener('click', () => {
     gameStarted = true;
     setDifficulty(difficultySelect.value);
 
     difficultySelect.disabled = true;
+    bgSelect.disabled = true;
     startButton.disabled = true;
 
     backgroundMusic.play();
@@ -57,21 +76,21 @@ volumeControl.addEventListener('input', () => {
     backgroundMusic.volume = volumeControl.value / 100;
 });
 
-window.addEventListener('keydown', (event) => {
-    if (!gameStarted) return; // No mover si no ha iniciado
+window.addEventListener('keydown', event => {
+    if (!gameStarted) return;
 
     switch(event.key) {
         case 'ArrowUp':
             if (playerPosition.y > 0) playerPosition.y -= playerSpeed;
             break;
         case 'ArrowDown':
-            if (playerPosition.y < gameArea.clientHeight - 50) playerPosition.y += playerSpeed;
+            if (playerPosition.y < gameArea.clientHeight - 70) playerPosition.y += playerSpeed;
             break;
         case 'ArrowLeft':
             if (playerPosition.x > 0) playerPosition.x -= playerSpeed;
             break;
         case 'ArrowRight':
-            if (playerPosition.x < gameArea.clientWidth - 50) playerPosition.x += playerSpeed;
+            if (playerPosition.x < gameArea.clientWidth - 70) playerPosition.x += playerSpeed;
             break;
     }
     updatePositions();
@@ -102,8 +121,8 @@ function updatePositions() {
 }
 
 function checkCollision() {
-    if (Math.abs(playerPosition.x - juangaPosition.x) < 50 &&
-        Math.abs(playerPosition.y - juangaPosition.y) < 50) {
+    if (Math.abs(playerPosition.x - juangaPosition.x) < 70 &&
+        Math.abs(playerPosition.y - juangaPosition.y) < 70) {
         alert('Juanga te atrapó! perdiste! lo que se ve no se pregunta 🤫.');
         resetGame();
     }
@@ -116,12 +135,9 @@ function resetGame() {
 
     gameStarted = false;
     difficultySelect.disabled = false;
+    bgSelect.disabled = false;
     startButton.disabled = false;
-
-    backgroundMusic.pause();
-    backgroundMusic.currentTime = 0;
-    backgroundMusic.volume = 0.5;
-    volumeControl.value = 50;
+    // La música sigue, no se pausa ni se reinicia aquí.
 }
 
 function gameLoop() {
