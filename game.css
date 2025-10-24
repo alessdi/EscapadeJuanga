@@ -39,7 +39,7 @@ h1 {
     box-shadow: 0 0 16px #3a86ffcc;
 }
 #juanga {
-    background-image: url('/resources/juanga.png');
+    background-image: url('resources/juanga.png');
     background-size: cover;
     box-shadow: 0 0 16px #ff6f59cc;
     background-color: #21808D;

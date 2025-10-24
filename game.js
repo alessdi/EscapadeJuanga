@@ -15,20 +15,10 @@ let playerSpeed;
 let juangaSpeed;
 let gameStarted = false;
 
-// Parámetros para recorte de música (clip)
-const clipStart = 0;
-const clipEnd = 60; // segundos
-
-// Volumen inicial
+// Inicializa volumen
 backgroundMusic.volume = 0.5;
 
-// Loop del clip cuando llega al minuto
-backgroundMusic.addEventListener('timeupdate', () => {
-    if (backgroundMusic.currentTime >= clipEnd) {
-        backgroundMusic.currentTime = clipStart;
-        backgroundMusic.play();
-    }
-});
+
 
 function setDifficulty(level) {
     switch(level) {
@@ -53,13 +43,12 @@ difficultySelect.addEventListener('change', () => {
     }
 });
 
-// Cambia el fondo dinámicamente
 bgSelect.addEventListener('change', () => {
-    gameArea.style.backgroundImage = `url('/resources/${bgSelect.value}')`;
+    gameArea.style.backgroundImage = `url('resources/${bgSelect.value}')`;
 });
 
 // Fondo inicial
-gameArea.style.backgroundImage = `url('/resources/${bgSelect.value}')`;
+gameArea.style.backgroundImage = `url('resources/${bgSelect.value}')`;
 
 startButton.addEventListener('click', () => {
     gameStarted = true;
@@ -137,7 +126,7 @@ function resetGame() {
     difficultySelect.disabled = false;
     bgSelect.disabled = false;
     startButton.disabled = false;
-    // La música sigue, no se pausa ni se reinicia aquí.
+    // Música sigue sonando sin cortes
 }
 
 function gameLoop() {
